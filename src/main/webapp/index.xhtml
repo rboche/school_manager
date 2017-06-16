@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <link rel="stylesheet" type="text/css" href="webjars/bootstrap/3.3.6/css/bootstrap.min.css"/>
+        <h:outputScript library="primefaces" name="jquery/jquery.js" target="head" />
+        <h:outputScript library="primefaces" name="jquery/jquery-plugins.js" target="head" />
+        <title>Home</title>
+    </h:head>
+    <h:body>
+        <nav class="navbar navbar-inverse" style="border-radius: 0px">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand"  href="/school_manager"><img src="img/logo_utbm.png" style="max-width: 100px; max-height: 100px; margin-top: -20px"/></a>
+                </div>
+
+                <ul class="nav navbar-nav">
+                    <li><a href="/school_manager/listcourses.xhtml">Our Courses <span class="glyphicon glyphicon-book"></span></a></li>
+                    <li><a href="/school_manager/searchSessions.xhtml">Search sessions <span class="glyphicon glyphicon-search"></span></a></li>
+                    <li><a href="#">About us</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container" style="margin-top: 100px">
+            <div class="jumbotron" >
+                <div style="display: inline-block; vertical-align: top">
+                    <h1>Welcome !</h1>
+                    <a href="/school_manager/listcourses.xhtml"><h2>Register to our great courses</h2></a>
+                </div>
+                <div style="display: inline-block; vertical-align: top ;background-color: transparent;  margin-left: 300px" >
+                    <img src="img/utbm_jumbotron.jpg" class="img-responsive"/>
+                </div>
+            </div>
+
+            <div>
+                <h:form id="gridForm">
+                    <p:growl id="growlStatus" showDetail="true" sticky="true" life="5000"/>
+                    <p:dataGrid id="parentGrid" var="courseSession" value="#{home.incomingSessions}" layout="grid">
+                        <f:facet name="header">
+                            Incoming Sessions
+                        </f:facet>
+
+                        <p:panel id="infoPanel" header="#{courseSession.location.city}">
+                            <h:panelGrid columns="1" style="width: 100%">
+                                <h:outputText  style="color: blue; font-family: fantasy" value="#{courseSession.course.title}"/>
+                                <h:outputText value="#{courseSession.formatDate(courseSession.startDate)} to #{courseSession.formatDate(courseSession.endDate)}"/>   
+                                <p:commandButton value="Register" icon="ui-icon-pencil" action="#{registerationMB.showRegisterationFrom(home.selectedCourseSession)}">
+                                    <f:setPropertyActionListener value="#{courseSession}" target="#{home.selectedCourseSession}" />
+                                    <p:ajax event="dialogReturn" listener="#{registerationMB.onRegisterationComplete}"  update=":gridForm:growlStatus"/>
+                                </p:commandButton>
+                            </h:panelGrid>
+                        </p:panel>
+                    </p:dataGrid>
+                </h:form>
+            </div>
+        </div>        
+        <script type="text/javascript" src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"/>
+    </h:body>
+</html>
+

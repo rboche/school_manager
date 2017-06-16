@@ -1,0 +1,14 @@
+#pageContent{
+    
+    margin-top: 100px;
+   
+}
+.ui-column-filter{
+    width: 500px;
+}
+
+
+
+.removeBorder>* {
+    border: none;
+}
